@@ -6,6 +6,7 @@
 //  Copyright © 2022 Daniel Saidi. All rights reserved.
 //
 
+import Combine
 import SwiftUI
 
 /**
@@ -31,7 +32,12 @@ public class RichTextContext: ObservableObject {
     public init(
         standardFontSize: CGFloat = .standardRichTextFontSize
     ) {
+        print("🌱 init", "RichTextContext")
         fontSize = standardFontSize
+    }
+
+    deinit {
+        print("💩 deinit ", String(describing: self))
     }
 
     // MARK: - Properties
@@ -46,6 +52,15 @@ public class RichTextContext: ObservableObject {
             set: { self.backgroundColor = ColorRepresentable($0) }
         )
     }
+
+    public func setForegroundColor(_ color: ColorRepresentable, range: NSRange) {
+        foregroundColorSubject.send((foregroundColor: color, range: range))
+    }
+
+    internal var foregroundColorSubject: PassthroughSubject<
+        (foregroundColor: ColorRepresentable, range: NSRange),
+        Never
+    > = .init()
 
     /**
      The standard highlighting style to apply when setting a

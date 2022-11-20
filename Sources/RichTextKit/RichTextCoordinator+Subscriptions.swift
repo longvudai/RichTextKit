@@ -104,6 +104,13 @@
                     receiveValue: { [weak self] in self?.setForegroundColor(to: $0) }
                 )
                 .store(in: &cancellables)
+
+            context.foregroundColorSubject
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] foregroundColor, range in
+                    self?.textView.setForegroundColor(to: foregroundColor, at: range)
+                }
+                .store(in: &cancellables)
         }
 
         func subscribeToHighlightedRange() {
