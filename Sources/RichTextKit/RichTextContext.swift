@@ -62,6 +62,15 @@ public class RichTextContext: ObservableObject {
         Never
     > = .init()
 
+    public func setAlignment(_ alignment: RichTextAlignment, range: NSRange?) {
+        alignmentSubject.send((alignment: alignment, range: range))
+    }
+
+    internal var alignmentSubject: PassthroughSubject<
+        (alignment: RichTextAlignment, range: NSRange?),
+        Never
+    > = .init()
+
     /**
      The standard highlighting style to apply when setting a
      highlighted range.

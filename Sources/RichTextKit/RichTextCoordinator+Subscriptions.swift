@@ -68,6 +68,15 @@
                     receiveValue: { [weak self] in self?.setAlignment(to: $0) }
                 )
                 .store(in: &cancellables)
+
+            context.alignmentSubject
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] alignment, range in
+                    let length = self?.textView.attributedString.length ?? 0
+                    let range = range ?? .init(location: 0, length: length)
+                    self?.textView.setRichTextAlignment(to: alignment, at: range)
+                }
+                .store(in: &cancellables)
         }
 
         func subscribeToBackgroundColor() {
