@@ -128,6 +128,10 @@
 //            textColor = .label
             setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 //            setupInitialFontSize(for: text)
+            
+            interactions.removeAll(where: {
+                $0 is UIDropInteraction || $0 is UIDragInteraction
+            })
         }
     }
 
