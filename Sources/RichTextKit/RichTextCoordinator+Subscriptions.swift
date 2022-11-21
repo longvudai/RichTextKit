@@ -33,10 +33,21 @@
             subscribeToShouldUndoLatestChange()
             subscribeToInputAccessoryView()
             subscribeToInputView()
+            subscribeToPasteAttributedText()
         }
     }
 
     private extension RichTextCoordinator {
+        func subscribeToPasteAttributedText() {
+            context.attributedTextSubject
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] attributedText in
+                    self?.textView.attributedText = attributedText
+                    self?.syncWithTextView()
+                }
+                .store(in: &cancellables)
+        }
+        
         func subscribeToInputAccessoryView() {
             context.$inputAccessoryView
                 .dropFirst()

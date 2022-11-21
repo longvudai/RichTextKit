@@ -71,6 +71,12 @@ public class RichTextContext: ObservableObject {
         Never
     > = .init()
 
+    public func pasteAttributedText(_ text: NSAttributedString) {
+        attributedTextSubject.send(text)
+    }
+
+    internal var attributedTextSubject: PassthroughSubject<NSAttributedString, Never> = .init()
+
     /**
      The standard highlighting style to apply when setting a
      highlighted range.
