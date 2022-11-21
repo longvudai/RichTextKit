@@ -73,8 +73,12 @@
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] alignment, range in
                     let length = self?.textView.attributedString.length ?? 0
-                    let range = range ?? .init(location: 0, length: length)
-                    self?.textView.setRichTextAlignment(to: alignment, at: range)
+                    if length <= 0 {
+                        self?.textView.setCurrentRichTextAlignment(to: alignment)
+                    } else {
+                        let range = range ?? .init(location: 0, length: max(0, length))
+                        self?.textView.setRichTextAlignment(to: alignment, at: range)
+                    }
                 }
                 .store(in: &cancellables)
         }
