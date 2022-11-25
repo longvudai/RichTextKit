@@ -148,7 +148,7 @@
                 range _: NSRange,
                 changeInLength _: Int
             ) {
-                syncWithTextView()
+                syncTextWithTextView()
             }
         }
 
